@@ -1,12 +1,12 @@
-import logo from './logo.svg';
-import './app.css';
+import './app.module.css';
+import Login from './components/login/login';
 
-function App() {
+function App({ authService }) {
   return (
-    <div className="App">
-      hello:)
+    <div className="app">
+      <Login authService={authService}/>
     </div>
-  );
+  )
 }
 
 export default App;
