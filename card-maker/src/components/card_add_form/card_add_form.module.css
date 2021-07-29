@@ -34,6 +34,7 @@
 }
 .fileInput button {
   flex: 1;
+  border: 0;
 }
 .input:focus,
 .textarea:focus,

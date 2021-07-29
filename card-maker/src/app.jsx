@@ -3,7 +3,7 @@ import Login from './components/login/login';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Maker from './components/maker/maker';
 
-function App({ FileInput, authService }) {
+function App({ FileInput, authService }) { 
   return (
     <div className={styles.app}>
       <BrowserRouter>
