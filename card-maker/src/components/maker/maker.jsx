@@ -6,9 +6,9 @@ import { useHistory } from 'react-router-dom';
 import Editor from '../editor/editor';
 import Preview from '../preview/preview';
 
-const Maker = ({ authService }) => {
-    const [cards, setCards] = useState([
-        {
+const Maker = ({ FileInput, authService }) => {
+    const [cards, setCards] = useState({
+        '1': {
             id: '1',
             name: 'dahyun',
             company: 'SSG',
@@ -19,7 +19,7 @@ const Maker = ({ authService }) => {
             fileName: 'dahyun',
             fileURL: null,
         },
-        {
+        '2': {
             id: '2',
             name: 'dahyun2',
             company: 'SSG',
@@ -30,7 +30,7 @@ const Maker = ({ authService }) => {
             fileName: 'dahyun',
             fileURL: null,
         },
-        {
+        '3': {
             id: '3',
             name: 'dahyun3',
             company: 'SSG',
@@ -39,9 +39,10 @@ const Maker = ({ authService }) => {
             email: 'dahuyn1@gmail.com',
             message: 'go for it',
             fileName: 'dahyun',
-            fileURL: '',
+            fileURL: null,
         }
-    ]);
+    });
+
     const history = useHistory();
     const onLogout = () => {
         authService.logout();
@@ -53,15 +54,38 @@ const Maker = ({ authService }) => {
             }
         })
    })
-   const addCard = (card) => {
-        const updated = [...cards, card];
-        setCards(updated);
+
+   const createOrUpdateCard = (card) => {
+        // 성능 진짜 안좋아.
+        // const updated = cards.map(item => {
+        //     if(card.id === item.id) {
+        //         return m
+        //     }
+        //     return item;
+        // })
+
+        // 키로 만들어서 성능을 향상시켜
+        setCards(cards => {
+            const updated = {...cards};
+            updated[card.id] = card;
+            return updated;
+        });
    }
+
+
+   const deleteCard = (card) => {
+    setCards(cards => {
+        const updated = {...cards};
+        delete updated[card.id];
+        return updated;
+    });
+   }
+
     return (
         <section className={styles.maker}>
             <Header onLogout={onLogout} />
             <div className={styles.container}>
-                <Editor cards={cards} addCard={addCard} />
+                <Editor FileInput={FileInput} cards={cards} addCard={createOrUpdateCard} updateCard={createOrUpdateCard} deleteCard={deleteCard}/>
                 <Preview cards={cards} />
             </div>
             <Footer />
