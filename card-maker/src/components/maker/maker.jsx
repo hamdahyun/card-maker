@@ -16,6 +16,20 @@ const Maker = ({ FileInput, authService, cardRepository }) => {
       authService.logout()
    }
 
+   // 
+   useEffect(() => {
+    if (!userId) {   
+        return;
+    }
+    const stopSync = cardRepository.syncCard(userId, cards => {
+        setCards(cards);
+    })
+    return () => {
+        stopSync();
+    }
+    }, [userId]);
+
+   // login 관련 
    useEffect(() => {
       authService.onAuthChange(user => {
          if (user) {
